@@ -12,14 +12,31 @@ namespace calculator
 {
     public partial class Form1 : Form
     {
-        double effective_rate = 0.68;
+        double effective_rate;
 
         private void button1_Click(object sender, EventArgs e)
         {
             double loan_amount = Convert.ToInt32(textBox1.Text); //Сумма займа
             double loan_term = Convert.ToInt32(textBox2.Text); //Срок займа
-            double total_payout = loan_amount + loan_amount * 0.0068*25;
-            textBox1.Text = Convert.ToString(total_payout);
+            for(int i=1;i<=loan_term;i++)
+            {
+            if (i <=5)
+            {
+                effective_rate += 0.009; 
+            }
+            if (i >5 & i<= 10)
+            {
+                effective_rate += 0.007;
+            }
+            if (i > 10)
+            {
+                effective_rate += 0.006;
+            }
+            }
+            effective_rate /= loan_term;
+            double interest_amount = loan_amount * effective_rate * loan_term;
+            double total_payout = interest_amount + loan_amount;
+            MessageBox.Show("Общая сумма выплаты " + Convert.ToString(total_payout) + " \n Сумма процентов " + interest_amount + " \n Эффективная ставка " + effective_rate*100 + "%");
         }
 
         public Form1()
