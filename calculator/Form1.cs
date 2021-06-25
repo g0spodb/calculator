@@ -15,56 +15,56 @@ namespace calculator
     public partial class Form1 : Form
     {
         string writePath = @"hta.txt";
-        double effective_rate;
+        double effective_rate;//эффективная ставка
 
         private void button1_Click(object sender, EventArgs e)
         {
-            double loan_amount = Convert.ToInt32(textBox1.Text); //Сумма займа
-            double loan_term = Convert.ToInt32(textBox2.Text); //Срок займа
-            int cumulatively = 0;
+            double loan_summa = Convert.ToInt32(textBox1.Text); //Сумма займа
+            double loan_srok = Convert.ToInt32(textBox2.Text); //Срок займа
+            int nakopitelno = 0;//накопительно
             using (StreamWriter sw = new StreamWriter(writePath, false, System.Text.Encoding.Default))
             {
                 sw.WriteLine();
             }
-            for (int i=1;i<=loan_term;i++)
+            for (int i=1;i<=loan_srok;i++)
             {
             if (i <=5)
             {
                     effective_rate += 0.009;//эффективная ставка
-                    cumulatively += 90; //накопительно
+                    nakopitelno += 90; //накопительно
                     using (StreamWriter sw = new StreamWriter(writePath, true, System.Text.Encoding.Default))
                     {
-                        sw.WriteLine("День" + i + " |  Ставка = " + effective_rate * 100 + "%" + "|    %(накопительно) = " + cumulatively + "Р" +  "|     Сумма выплаты = " + (loan_amount + cumulatively) + "Р");
+                        sw.WriteLine("День" + i + " |  Ставка = " + effective_rate * 100 + "%" + "|    %(накопительно) = " + nakopitelno + "Р" +  "|     Сумма выплаты = " + (loan_summa + nakopitelno) + "Р");
                     }
                     
             }
             if (i >5 & i<= 10)
             {
                     effective_rate += 0.007;
-                    cumulatively += 70;
+                    nakopitelno += 70;
                     using (StreamWriter sw = new StreamWriter(writePath, true, System.Text.Encoding.Default))
                     {
-                        sw.WriteLine("День" + i + " |  Ставка = " + effective_rate * 100 + "%" + "|    %(накопительно) = " + cumulatively + "Р" + "|     Сумма выплаты = " + (loan_amount + cumulatively) + "Р");
+                        sw.WriteLine("День" + i + " |  Ставка = " + effective_rate * 100 + "%" + "|    %(накопительно) = " + nakopitelno + "Р" + "|     Сумма выплаты = " + (loan_summa + nakopitelno) + "Р");
                     }
 
                 }
             if (i > 10)
             {
                     effective_rate += 0.006;
-                    cumulatively += 60;
+                    nakopitelno += 60;
                     using (StreamWriter sw = new StreamWriter(writePath, true, System.Text.Encoding.Default))
                     {
-                        sw.WriteLine("День" + i + "|  Ставка = " + effective_rate * 100 + "%" + "|    %(накопительно) = " + cumulatively + "Р"  + "|     Сумма выплаты = " + (loan_amount + cumulatively) + "Р");
+                        sw.WriteLine("День" + i + "|  Ставка = " + effective_rate * 100 + "%" + "|    %(накопительно) = " + nakopitelno + "Р"  + "|     Сумма выплаты = " + (loan_summa + nakopitelno) + "Р");
                     }
 
                 }
             
             }
-            effective_rate /= loan_term;
-            double interest_amount = loan_amount * effective_rate * loan_term;
-            double total_payout = interest_amount + loan_amount;
-            if (total_payout > loan_amount * 2.5) MessageBox.Show("размер выплаты по микрозайму не может превышать 2, 5 - кратного размера суммы займа");
-            MessageBox.Show("Общая сумма выплаты " + Convert.ToString(total_payout) + " \n Сумма процентов " + interest_amount + " \n Эффективная ставка " + effective_rate*100 + "%");
+            effective_rate /= loan_srok;
+            double procent_amount = loan_summa * effective_rate * loan_srok;//Сумма процентов
+            double total_payout = procent_amount + loan_summa;//общая сумма выплаты
+            if (total_payout > loan_summa * 2.5) MessageBox.Show("размер выплаты по микрозайму не может превышать 2, 5 - кратного размера суммы займа");
+            MessageBox.Show("Общая сумма выплаты " + Convert.ToString(total_payout) + " \n Сумма процентов " + procent_amount + " \n Эффективная ставка " + effective_rate*100 + "%");
         }
         public Form1()
         {
